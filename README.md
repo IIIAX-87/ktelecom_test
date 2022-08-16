@@ -1,16 +1,17 @@
-after clone
-
-#Start backend
+### Start backend
+```
 cd k_telecom_test
 docker-compose up --build
 username admin
 password admin
+```
 
-#Start frontend
+### Start frontend
+```
 cd k_telecom_test/frontend/equipment
 npm install
 npm run serve
+```
 
-
-#not work:
+### not work:
 filter
