@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  db:
+    platform: linux/x86_64
+    image: mysql
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_DATABASE: 'k_telekom'
+      MYSQL_USER: 'k_telekom_dev'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+    restart: always
+    volumes:
+      - ./db:/var/lib/mysql
+    networks:
+      - app-network
+    healthcheck:
+      test: mysqladmin ping -h db -u 'k_telekom_dev' --password='password'
+      interval: 5s
+      timeout: 1s
+      retries: 3
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./k_telekom:/k_telekom
+    ports:
+      - '8000:8000'
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - app-network
+    restart: on-failure
+
+networks:
+  app-network:
+    driver: bridge
