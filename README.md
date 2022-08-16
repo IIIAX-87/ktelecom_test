@@ -13,4 +13,4 @@ npm run serve
 
 
 #not work:
-pagination, filter, validation on form
+filter
